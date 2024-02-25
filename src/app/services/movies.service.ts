@@ -26,7 +26,7 @@ export class MoviesService {
   getPopulares() {
     this.popularesPage++;
 
-    const query = `/discover/movie?sort_by=popularity.desc&page=${ this.popularesPage }`;
+    const query = `/discover/tv?sort_by=popularity.desc&page=${ this.popularesPage }`;
     return this.ejecutarQuery<RespuestaMDB>(query);
   }
 
@@ -46,29 +46,29 @@ export class MoviesService {
     const inicio = `${ hoy.getFullYear() }-${ mesString }-01`;
     const fin = `${ hoy.getFullYear() }-${ mesString }-${ ultimoDia }`;
 
-    return this.ejecutarQuery<RespuestaMDB>(`/discover/movie?primary_release_date.gte=${ inicio }&primary_release_date.lte=${ fin }`);
+    return this.ejecutarQuery<RespuestaMDB>(`/discover/tv?primary_release_date.gte=${ inicio }&primary_release_date.lte=${ fin }`);
   }
 
   getPeliculaDetalle(id: number){
 
-    return this.ejecutarQuery<PeliculaDetalle>(`/movie/${ id }?a=1`);
+    return this.ejecutarQuery<PeliculaDetalle>(`/tv/${ id }?a=1`);
 
   }
 
   getActoresPelicula(id: number) {
 
-    return this.ejecutarQuery<RespuestaCredits>(`/movie/${ id }/credits?a=1`);
+    return this.ejecutarQuery<RespuestaCredits>(`/tv/${ id }/credits?a=1`);
 
   }
 
   buscarPeliculas(query: string) {
-    return this.ejecutarQuery<SearchResult>(`/search/movie?query=${ query }`);
+    return this.ejecutarQuery<SearchResult>(`/search/tv?query=${ query }`);
   }
 
   cargarGeneros(): Promise<Genre[]> {
 
     return new Promise( resolve => {
-      return this.ejecutarQuery<Genres>('/genre/movie/list?a=1')
+      return this.ejecutarQuery<Genres>('/genre/tv/list?a=1')
       .subscribe( resp => {
         this.generos = resp.genres;
         console.log("generos", this.generos);
